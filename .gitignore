@@ -1,1 +1,13 @@
-
+*.bak
+*.egg
+*.egg-info
+*.eggs
+*.pyc
+*.pyd
+*.pyo
+*.so
+*.tar.gz
+*~
+.DS_Store
+.Python
+.cache
