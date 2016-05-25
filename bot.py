@@ -55,7 +55,7 @@ async def consumer(message):
             sc = SlackClient(TOKEN)
             userID = user_info['user']['id']
             userChannel = sc.api_call("im.open", user=userID)['channel']['id']
-            message = '[{"title":"Dark brotherhood paint print I did on my laptop :D","title_link": "http://9gag.com/gag/aOVM8AD","image_url": "http://img-9gag-fun.9cache.com/photo/aOVM8AD_700b.jpg"}]'
+            message = '[{"title":"Dark brotherhood paint print I did on my laptop","title_link": "http://9gag.com/gag/aOVM8AD","image_url": "http://img-9gag-fun.9cache.com/photo/aOVM8AD_700b.jpg"}]'
             sc.api_call("chat.postMessage", as_user="true:", channel=userChannel, text="9GAG",attachments=message)
 
 
