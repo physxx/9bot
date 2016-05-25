@@ -90,18 +90,31 @@ def getPosts(section, nbPost):
         pageSoup = BeautifulSoup(htmlData, "lxml")
         articles = pageSoup.find_all("article")
 
-    print(len(posts))
-    for po in posts:
-        print(str(po) + "\n")
+    return posts
+
+def checkCommand(command):
+    args = command.strip().split()
+
+    if(len(args) > 0):
+        if args[0] == 'help':
+            helpBot()
+        else:
+            section = args[0]
+            nbPosts = 1
+            if len(args) >= 2 :
+                nbPosts = int(args[1])
+
+            if section in sections:
+                print("La section " + section + " existe")
+                print(sections[section])
+                posts = getPosts(sections[section], nbPosts)
+                p = iter(posts)
+                for _ in range(nbPosts):
+                    print(str(next(p)) + "\n")
+            else :
+                print ("Impossible de trouver la section ", str(section))
+    else:
+        print("ne rien faire") #Ce cas n'arrivera pas avec Slack car impossible d'envoyer des messages vides
 
 command = input("Entrer sections: ")
-
-if command == "help":
-    helpBot()
-else:
-    if command in sections:
-        print("La section " + str(command) + " existe")
-        print(sections[command])
-        getPosts(sections[command], 1)
-    else :
-        print ("Impossible de trouver la section ", str(command))
+checkCommand(command)
