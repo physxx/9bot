@@ -50,13 +50,10 @@ async def consumer(message):
         user_info = await api_call('users.info', dict(user=message.get('user')))
         #print("{user[user][name]}: {message[text]}".format(user=user_info, message=message))
         print(message['text'])
-        username = user_info['user']['name']
-        if username != "9bot":
-            sc = SlackClient(TOKEN)
-            userID = user_info['user']['id']
-            userChannel = sc.api_call("im.open", user=userID)['channel']['id']
-            message = '[{"title":"Dark brotherhood paint print I did on my laptop","title_link": "http://9gag.com/gag/aOVM8AD","image_url": "http://img-9gag-fun.9cache.com/photo/aOVM8AD_700b.jpg"}]'
-            sc.api_call("chat.postMessage", as_user="true:", channel=userChannel, text="9GAG",attachments=message)
+        userChannel = message['channel']
+        if 'user' in user_info:
+            message = '[{"title":"Dark brotherhood paint print I did on my laptop :D","title_link": "http://9gag.com/gag/aOVM8AD","image_url": "http://img-9gag-fun.9cache.com/photo/aOVM8AD_700b.jpg"}]'
+            await api_call("chat.postMessage", dict(channel=userChannel, text="9GAG",attachments=message))
 
 
 async def bot(get, token=TOKEN):
