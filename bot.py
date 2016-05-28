@@ -2,9 +2,9 @@
 import asyncio
 import json
 import signal
-
 import aiohttp
 
+from getPosts import checkCommand
 from config import DEBUG, TOKEN
 from slackclient import SlackClient
 
@@ -49,11 +49,14 @@ async def consumer(message):
     if message.get('type') == 'message':
         user_info = await api_call('users.info', dict(user=message.get('user')))
         #print("{user[user][name]}: {message[text]}".format(user=user_info, message=message))
-        print(message['text'])
         userChannel = message['channel']
         if 'user' in user_info:
-            message = '[{"title":"Dark brotherhood paint print I did on my laptop :D","title_link": "http://9gag.com/gag/aOVM8AD","image_url": "http://img-9gag-fun.9cache.com/photo/aOVM8AD_700b.jpg"}]'
-            await api_call("chat.postMessage", dict(channel=userChannel, text="9GAG",attachments=message))
+            msg = checkCommand(message['text'])
+            txt = "9GAG"
+            for post in msg:
+                if post[:1] != '[':
+                    txt = post
+                await api_call("chat.postMessage", {"channel":userChannel, "text":txt,"attachments":post})
 
 
 async def bot(get, token=TOKEN):
