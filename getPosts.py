@@ -28,11 +28,10 @@ class Post:
         return '[{"title":"' + str(self.title) + '","title_link":"' + str(self.link) + '","image_url":"' + str(self.ImageLink) + '"}]'
 
 def helpBot():
-    print("Command list :")
-    print("\t[section]")
-    print("\nList of sections :")
+    str = "Command list :\t[section]\nList of sections :"
     for s in sections:
-        print ("\t" + s)
+        str += "\t" + s
+    return str
 
 def getPosts(section, nbPost):
     root = "http://9gag.com"
@@ -97,12 +96,15 @@ def checkCommand(command):
 
     if(len(args) > 0):
         if args[0] == 'help':
-            helpBot()
+            msgs.append(helpBot())
         else:
             section = args[0]
             nbPosts = 1
             if len(args) >= 2 :
-                nbPosts = int(args[1])
+                try:
+                    nbPosts = int(args[1])
+                except ValueError:
+                    nbPosts = 1
                 if nbPosts > 20:
                     nbPosts = 20
 
