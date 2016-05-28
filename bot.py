@@ -49,13 +49,13 @@ async def consumer(message):
     if message.get('type') == 'message':
         user_info = await api_call('users.info', dict(user=message.get('user')))
         #print("{user[user][name]}: {message[text]}".format(user=user_info, message=message))
-        if message['channel'][:1] == 'D':
+        if message['channel'].startswith('D'):
             userChannel = message['channel']
             if 'user' in user_info:
                 msg = checkCommand(message['text'].lower())
                 txt = "9GAG"
                 for post in msg:
-                    if post[:1] != '[':
+                    if not post.startswith('['):
                         txt = post
                     await api_call("chat.postMessage", {"channel":userChannel, "text":txt,"attachments":post})
 
