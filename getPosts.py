@@ -15,17 +15,8 @@ sections = {"hot" : "/hot", "trending" : "/trending", "fresh" : "/fresh",
             "gif" : "/gif", "gifHot" : "/gif/hot", "gifFresh" : "/gif/fresh",
             "cosplay" : "/cosplay", "cosplayHot" : "/cosplay/hot", "cosplayFresh" : "/cosplay/fresh",
             "girl" : "/girl", "girlHot" : "/girl/hot", "girlFresh" : "/girl/fresh",
-            "nsfw" : "/nsfw", "nsfwHot" : "/nsfw/hot", "nsfwFresh" : "/nsfw/fresh"}
-
-class Post:
-    def __init__(self, postId, postTitle, postLink, postImgLink):
-        self.id = postId
-        self.title = postTitle
-        self.link = postLink
-        self.ImageLink = postImgLink
-
-    def __str__(self):
-        return '[{"title":"' + str(self.title) + '","title_link":"' + str(self.link) + '","image_url":"' + str(self.ImageLink) + '"}]'
+            "nsfw" : "/nsfw", "nsfwHot" : "/nsfw/hot", "nsfwFresh" : "/nsfw/fresh",
+            "random" : "/random"}
 
 def helpBot():
     str = "Command list :\t[section]\nList of sections :"
@@ -33,19 +24,22 @@ def helpBot():
         str += "\t" + s
     return str
 
-def getPosts(section, nbPost):
+def getPage(section):
     root = "http://9gag.com"
     url = root + section
+    response = requests.get(url)
+    return response
+
+def getPostsOnPage(page, nbPost):
+    root = "http://9gag.com"
     gagLink = ""
     gagRoot = "http://9gag.com/gag/"
+    htmlData = page.content
+    pageSoup = BeautifulSoup(htmlData, "lxml")
+    articles = pageSoup.find_all("article")
 
     maxCount = nbPost #Par 10
     count = 0
-
-    response = requests.get(url)
-    htmlData = response.content
-    pageSoup = BeautifulSoup(htmlData, "lxml")
-    articles = pageSoup.find_all("article")
 
     posts = []
 
@@ -77,14 +71,14 @@ def getPosts(section, nbPost):
                     if gagID is not None:
                         gagData = "http://ultimate.best9gagclonescript.com/styles/light/img/nsfw.jpg"
 
-            p = Post(gagID, gagTitle, gagLink, gagData)
+            p = {"title": gagTitle ,"title_link": gagLink ,"image_url": gagData}
             posts.append(p)
         next = pageSoup.find_all("div",{"class" : "loading"})
         url = root + next[0].a['href']
 
         # Next 10 articles
-        response = requests.get(url)
-        htmlData = response.content
+        page = requests.get(url)
+        htmlData = page.content
         pageSoup = BeautifulSoup(htmlData, "lxml")
         articles = pageSoup.find_all("article")
 
@@ -109,10 +103,10 @@ def checkCommand(command):
                     nbPosts = 20
 
             if section in sections:
-                posts = getPosts(sections[section], nbPosts)
-                p = iter(posts)
-                for _ in range(nbPosts):
-                    msgs.append(str(next(p)))
+                page = getPage(sections[section])
+                posts = getPostsOnPage(page, nbPosts)
+                for p in posts[:nbPosts]:
+                    msgs.append(json.dumps([p]))
             else:
                 msgs.append("Impossible de trouver la section " + str(section))
     return msgs
