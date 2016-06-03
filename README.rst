@@ -35,8 +35,8 @@ Usage
 -----
 Créer fichier dans slack9bot\config.py
 Contenu:
-	DEBUG = [True,False]
-	TOKEN = "xoxb-"
+DEBUG = [True,False]
+TOKEN = "xoxb-"
 .. code-block:: shell
     (slack)$ python slack9bot\slackbot.py
 
