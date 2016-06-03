@@ -20,10 +20,9 @@ This bot uses extensively features from Python 3.4.
 
 .. code-block:: shell
 
-    $ python -m venv slack
-    $ cd slack
-    $ . bin/activate
-    (slack)$ pip install git+https://github.com/physxx/9bot
+    $ python -m venv slack9bot
+    $ Scripts\activate.bat
+    (slack9bot)$ pip install slack9bot
 	
 Pour une installation dans venv il faudra installer manuellement lxml avec le fichier lxml-3.4.4-cp35-none-win_amd64.whl disponible à l'adresse : http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
 Commande pour l'installation : 
