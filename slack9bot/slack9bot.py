@@ -6,7 +6,6 @@ import aiohttp
 
 from getPosts import checkCommand
 from config import DEBUG, TOKEN
-from slackclient import SlackClient
 
 import websockets
 

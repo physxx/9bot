@@ -12,3 +12,7 @@
 .Python
 .cache
 config.py
+Lib
+Include
+Scripts
+pyvenv.cfg
