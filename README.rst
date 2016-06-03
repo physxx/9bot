@@ -33,12 +33,10 @@ Commande pour l'installation :
 
 Usage
 -----
-
+Créer fichier dans slack9bot\config.py
+Contenu:
+	DEBUG = [True,False]
+	TOKEN = "xoxb-"
 .. code-block:: shell
-
-    Créer fichier dans slack9bot\config.py
-	Contenu:
-		DEBUG = [True,False]
-		TOKEN = "xoxb-"
     (slack)$ python slack9bot\slackbot.py
 
