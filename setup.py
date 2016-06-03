@@ -1,5 +1,7 @@
 """A setuptools based setup module.
 
+   A Python project based on Slackbot that returns 9gag posts to Slack
+       
 """
 
 # Always prefer setuptools over distutils
@@ -22,9 +24,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.0.1',
 
-    description="""
-        A Python project based on Slackbot that returns 9gag posts to Slack
-        """,
+    description=__doc__,
     long_description=long_description,
 
     # The project's main homepage.
@@ -68,7 +68,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['aiohttp', 'websockets', 'asyncio', 'requests', 'bs4', 'json'],
+    install_requires=['aiohttp', 'websockets', 'asyncio', 'requests', 'bs4', 'lxml'],
     extras_requires={
         'test': ('pytest',),
         'doc': ('Sphinx', 'sphinx_rtd_theme'),
