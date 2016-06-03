@@ -16,3 +16,4 @@ Lib
 Include
 Scripts
 pyvenv.cfg
+_build

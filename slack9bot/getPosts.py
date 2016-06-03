@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
+#Dictionnaire des sections accèssible grâce au commandes de 9Bot
 sections = {"hot" : "/hot", "trending" : "/trending", "fresh" : "/fresh",
             "geeky" : "/geeky", "geekyHot" : "/geeky/hot", "geekyFresh" : "/geeky/fresh",
             "wtf" : "/wtf", "wtfHot" : "/wtf/hot", "wtfFresh" : "/wtf/fresh",
@@ -19,18 +20,32 @@ sections = {"hot" : "/hot", "trending" : "/trending", "fresh" : "/fresh",
             "random" : "/random"}
 
 def helpBot():
-    str = "Command list :\t[section]\nList of sections :"
+    '''
+    Renvoie un string contenant l'aide des commandes possible avec 9Bot.
+    '''
+    str = "Command list :\t[section] [numberOfPosts]\nList of sections :"
     for s in sections:
-        str += "\t" + s
+        str += "\n" + "\t" + s
     return str
 
 def getPage(section):
+    '''
+    Retourne le contenu HTML de la page 9gag de la section passée en paramètre.
+    '''
     root = "http://9gag.com"
     url = root + section
     response = requests.get(url)
     return response
 
 def getPostsOnPage(page, nbPost):
+    '''
+    Récupère le nombre de postes désiré passé de la page passé en paramètre.
+    Le nb de postes sera arrondi à la dizaine supérieure. Retourne une liste de dictionnaire.
+    Un dictionnaire contient les champs 'title', 'title_link' et 'image_url'.
+    'title' est le titre du poste.
+    'title_link' est le lien permettant d'accéder au poste.
+    'image_url' est le lien de l'image du poste concerné.
+    '''
     root = "http://9gag.com"
     gagLink = ""
     gagRoot = "http://9gag.com/gag/"
@@ -85,6 +100,14 @@ def getPostsOnPage(page, nbPost):
     return posts
 
 def checkCommand(command):
+    '''
+    Vérifier si la commande existe.
+    Si la commande est 'help' la fonction helpBot() est appelée et une liste contenant le string de l'aide sera retournée.
+    Si la commande est valide et correspond à une section prise en compte par le bot, les fonctions getPage() et getPostsOnPage() seront appelées et une liste de json sera retournée.
+    Les json contenus dans la liste sont un dump json des dictionnaires retournés par la fonction getPostsOnPage().
+    Pour plus d'informations, sur la structure des dictionnaires contenus dans la liste voir la documentation de la fonction getPostsOnPage().
+    Si la commande n'est pas valide, le string "Impossible de trouver la section [section]" sera le seul élément de la liste retournée.
+    '''
     args = command.strip().split()
     msgs = []
 

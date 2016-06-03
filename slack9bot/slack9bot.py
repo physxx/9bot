@@ -1,4 +1,4 @@
-"""Sample Slack ping bot using asyncio and websockets."""
+'''Sample Slack ping bot using asyncio and websockets.'''
 import asyncio
 import json
 import signal
@@ -13,7 +13,8 @@ import websockets
 RUNNING = True
 
 async def api_call(method, data=None, file=None, token=TOKEN):
-    """Perform an API call to Slack.
+    '''
+    Perform an API call to Slack.
     :param method: Slack API method name.
     :param type: str
     :param data: Form data to be sent.
@@ -22,7 +23,7 @@ async def api_call(method, data=None, file=None, token=TOKEN):
     :param type: file
     :param token: OAuth2 tokn
     :param type: str
-    """
+    '''
     with aiohttp.ClientSession() as session:
         form = aiohttp.FormData(data or {})
         form.add_field("token", token)
@@ -36,14 +37,14 @@ async def api_call(method, data=None, file=None, token=TOKEN):
 
 
 async def producer(send, timeout=20):
-    """Produce a ping message every timeout seconds."""
+    '''Produce a ping message every timeout seconds.'''
     while RUNNING:
         await asyncio.sleep(timeout)
         send({"type": "ping"})
 
 
 async def consumer(message):
-    """Consume the message by printing it."""
+    '''Consume the message by printing it.'''
     message = json.loads(message)
     if message.get('type') == 'message':
         user_info = await api_call('users.info', dict(user=message.get('user')))
@@ -60,7 +61,7 @@ async def consumer(message):
 
 
 async def bot(get, token=TOKEN):
-    """Create a bot that joins Slack."""
+    '''Create a bot that joins Slack.'''
     rtm = await api_call("rtm.start")
     assert 'ok' in rtm and rtm['ok'], "Error connecting to RTM."
 
@@ -87,7 +88,7 @@ async def bot(get, token=TOKEN):
 
 
 def stop():
-    """Gracefully stop the bot."""
+    '''Gracefully stop the bot.'''
     global RUNNING
     RUNNING = False
     print("Stopping... closing connections.")
@@ -98,7 +99,7 @@ if __name__ == "__main__":
 
     outbox = asyncio.Queue()
 
-	
+
     loop.run_until_complete(asyncio.wait((bot(outbox.get),
                                           producer(outbox.put))))
     loop.close()
