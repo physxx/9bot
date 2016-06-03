@@ -1,15 +1,17 @@
 9Bot
 =======
 
-.. image:: https://readthedocs.org/projects/votebot/badge/?version=latest
-   :alt: Documentation status
-   :target: http://votebot.readthedocs.io/en/latest/
+Slack signifie "relâché" alors relâchez-vous (mais pas trop) et prenez une pause avec 9Bot ! 9Bot a pour but de faire profiter de 9gag sans souffrir de la folie du scroll.
 
-.. image:: https://travis-ci.org/HE-Arc/votebot.svg?branch=master
-   :alt: Build status
-   :target: https://travis-ci.org/HE-Arc/votebot
+9Bot est un bot pour Slack. Le but de 9Bot est d'envoyer à l'utilisateur des postes du site www.9gag.com lorsque celui-ci le demande.
 
-The bot for voting on stuff.
+Il est possible de demander des postes de la plupart des sections de 9gag. L'utilisateur peut également préciser le nombre de postes souhaités.
+
+Voici la syntaxe de la commande : [section] [n]
+
+section : Représente une section de 9gag. Exemples : hot, fresh, food...
+
+n : Indique le nombre de postes désirés. Si n n'est pas précisé il vaudra 1.
 
 Installation
 ------------
@@ -18,16 +20,23 @@ This bot uses extensively features from Python 3.4.
 
 .. code-block:: shell
 
-    $ python -m venv slack
-    $ cd slack
-    $ . bin/activate
-    (slack)$ pip install git+https://github.com/physxx/9bot
+    $ python -m venv slack9bot
+    $ Scripts\activate.bat
+    (slack9bot)$ pip install slack9bot
+
+Pour une installation dans venv il faudra installer manuellement lxml avec le fichier lxml-3.4.4-cp35-none-win_amd64.whl disponible à l'adresse : http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
+Commande pour l'installation :
+.. code-block:: shell
+
+    $ pip install lxml-3.4.4-cp35-none-win_amd64.whl
 
 
 Usage
 -----
-
+Créer fichier dans slack9bot\config.py
+Contenu:
+DEBUG = [True,False]
+TOKEN = "xoxb-"
 .. code-block:: shell
 
-    (slack)$ export SLACK_TOKEN=xoxb-123
-    (slack)$ python 9bot
+    (slack)$ python slack9bot\slackbot.py
